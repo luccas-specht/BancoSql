@@ -1,0 +1,61 @@
+/*ÉH A MESMA PORRA
+SELECT * FROM pedido AS p INNER JOIN cliente AS c ON(c.CodCliente=p.CodPedido);
+SELECT * FROM pedido AS p JOIN cliente AS c ON(c.CodCliente=p.CodPedido);*/
+
+/*LISTA DE JOINS*/
+
+/*1) Mostrar a quantidade pedida para um determinado produto com um determinado
+código a partir da tabela item de pedido.*/
+
+USE compubras;
+SELECT p.Codproduto, p.descricao, i.quantidade AS Quantidades FROM itempedido AS i INNER JOIN produto AS p ON i.Coditempedido = p.CodProduto
+GROUP BY p.Codproduto ORDER BY p.descricao;
+
+/*2)Listar a quantidade de produtos que cada pedido contém.*/
+
+USE compubras;
+SELECT  p.codpedido AS COD_PEDIDO, i.quantidade AS QUANTIDADE_SOLICITADA FROM itempedido AS i JOIN pedido AS p ON(P.codpedido=i.coditempedido);
+
+/*3) Ver os pedidos de cada cliente, listando nome do cliente e número do pedido.*/
+
+SELECT c.nome AS NOME_DO_CLIENTE, p.codpedido AS EO_COD_DO_PEDIDO FROM pedido AS p INNER JOIN cliente AS c ON (p.codpedido=c.codcliente);
+
+
+/*4) Listar todos os clientes com seus respectivos pedidos. Os clientes que não têm
+pedidos também devem ser apresentados.*/
+?;
+/*5) Clientes com prazo de entrega superior a 10 dias e que pertençam aos estados do
+Rio Grande do Sul ou Santa Catarina.*/
+?;
+
+/*6) Mostrar os clientes e seus respectivos prazos de entrega, ordenando do maior para
+o menor.*/
+
+SELECT c.codcliente, c.nome, c.endereco, c.cidade, c.cep, c.uf, c.ie, p.PrazoEntrega FROM cliente AS c INNER JOIN pedido AS p 
+ON (p.codpedido=c.codcliente) 
+
+GROUP BY c.nome ORDER BY p.prazoentrega DESC;
+
+/*QUESTÃO 3, LISTA 3*/
+
+PASSO 1: descobrir qunato custa cada pedido;
+PASSO 2: descobrir quanto cada vendendor vendeu;
+PASSO 3: exibir o nome do vendendor e comissao (ARRENBONDADO);
+use compubras;
+
+SELECT vendedor.nome, round(temp2.valor_vendido *0.1,2) as COMISSAO
+ FROM vendedor INNER JOIN
+(SELECT pedido.codvendedor, SUM(temp.valor_pedido) AS valor_vendido FROM pedido LEFT JOIN
+(SELECT itempedido.codpedido, 
+COALESCE (SUM(itempedido.quantidade * produto.valorunitario)) AS valor_pedido
+FROM itempedido INNER JOIN produto ON(itempedido=produto.codproduto)
+GROUP BY itempedido.codpedido) temp
+ON pedido.codpedido = temp.codpedido
+GROUP BY pedido.codvendedor) temp2
+ON vendedor.codvendedor=temp2.codvendedor ORDER BY comissao ASC;
+
+
+
+
+
+
