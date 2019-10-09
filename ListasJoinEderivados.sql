@@ -1,44 +1,4 @@
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 1) Mostre o nome dos Clientes e seu endereço completo, dos clientes que realizaram um pedido no ano de 2015. ordene pela ordem alfabética. 
  
 select cliente.nome, cliente.Endereco, cliente.Cidade, cliente.Uf, cliente.Cep from cliente where cliente.CodCliente in (select pedido.CodCliente from pedido where year(pedido.DataPedido) = 2015) order by cliente.Nome asc; 
