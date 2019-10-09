@@ -1,4 +1,4 @@
-/*ÉH A MESMA PORRA
+
 SELECT * FROM pedido AS p INNER JOIN cliente AS c ON(c.CodCliente=p.CodPedido);
 SELECT * FROM pedido AS p JOIN cliente AS c ON(c.CodCliente=p.CodPedido);*/
 
